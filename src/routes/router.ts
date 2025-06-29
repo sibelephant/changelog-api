@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { body, oneOf, validationResult } from "express-validator";
 import { HandleInputErrors } from "../middlewares/inputValidator";
-import { createProduct, getProduct, getProducts } from "../handlers/products";
+import { createProduct, deleteProduct, getProduct, getProducts, updateProduct } from "../handlers/products";
 
 const router = Router()
 
@@ -15,9 +15,9 @@ router.get("/product/:id", getProduct);
 
 router.post("/product", body('name').isString(), HandleInputErrors,createProduct)
 
-router.put("/product/:id", body('name').isString(), HandleInputErrors);
+router.put("/product/:id", body('name').isString(), HandleInputErrors,updateProduct);
 
-router.delete("/product/:id", (req, res) => { });
+router.delete("/product/:id", deleteProduct);
 
 /**
  * Update
@@ -25,11 +25,11 @@ router.delete("/product/:id", (req, res) => { });
 
 router.get("/update", (req, res) => { });
 
-router.get("/update/:id", (req, res) => { });
+router.get("/update/:id",(req,res)=>{});
 
 router.post("/update", body('title').exists().isString(), body('body').exists().isString(), (req, res) => { });
 
-router.put("/update/:id", body('title').optional(), body('name').optional(), body('status').optional(), body('version').optional(), oneOf([body('status').equals('IN-PROGRESS'), body('status').equals('SHIPPED'), body('status').equals('DEPRECATED')]), (req, res) => { });
+router.put("/update/:id", body('title').optional(), body('name').optional(), body('status').optional(), body('version').optional(), oneOf([body('status').equals('IN-PROGRESS'), body('status').equals('SHIPPED'), body('status').equals('DEPRECATED')]), updateProduct);
 
 router.delete("/update/:id", (req, res) => { });
 
