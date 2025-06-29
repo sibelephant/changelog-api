@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { body, oneOf, validationResult } from "express-validator";
 import { HandleInputErrors } from "../middlewares/inputValidator";
-import { getProduct, getProducts } from "../handlers/products";
+import { createProduct, getProduct, getProducts } from "../handlers/products";
 
 const router = Router()
 
@@ -13,7 +13,7 @@ router.get("/product", getProduct);
 
 router.get("/product/:id", getProduct);
 
-router.post("/product", body('name').isString(), HandleInputErrors)
+router.post("/product", body('name').isString(), HandleInputErrors,createProduct)
 
 router.put("/product/:id", body('name').isString(), HandleInputErrors);
 

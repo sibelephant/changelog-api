@@ -40,7 +40,7 @@ export const createProduct = async (req, res) => {
         }
     })
 
-    res.josn({
+    res.json({
         data: product
     })
 }
