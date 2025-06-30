@@ -1,30 +1,48 @@
-import prisma from "../db"
+import prisma from "../db";
 
 export const getOneUpdate = async (req, res) => {
-    const update = await prisma.update.findUnique({
-        where: { id: req.params.id }
-    });
-    res.json({data:update})
-}
+  const update = await prisma.update.findUnique({
+    where: { id: req.params.id },
+  });
+  res.json({ data: update });
+};
 
 export const getUpdates = async (req, res) => {
+  const products = await prisma.product.findMany({
+    where: {
+      belongsToId: req.user.id,
+    },
+    include: {
+      updates: true,
+    },
+  });
 
-    cosnt products = await prisma.product.
-    const updates = await prisma.update.findMany({
-        where:{
+  const updates = products.reduce((allupdates, product) => {
+    return [...allupdates, ...product.updates];
+  }, []);
 
-        }
-    })
-}
+  res.json({ data: updates });
+};
 
 export const createUpdate = async (req, res) => {
+    const  product = await prisma.product.findUnique({
+        where:{
+            id:req.body.id
+        }
+    });
 
-}
+    if (!product){
+        res.json({messsage:"you don't have a product"})
+    };
 
-export const updateUpdate = async (req, res) => {
+    const update = await prisma.update.create({
+        data:req.body
+    })
 
-}
+    res.json({data:update})
 
-export const deleteUpdate = async (req, res) => {
+};
 
-}
+export const updateUpdate = async (req, res) => {};
+
+export const deleteUpdate = async (req, res) => {};
